@@ -34,13 +34,18 @@ public class DeadScreen implements Screen {
     public void show() {
 
     }
-
+    int time;
     @Override
     public void render(float delta) {
+        time++;
         ScreenUtils.clear(Color.BLACK);
         main.batch.begin();
         font.draw(main.batch, gl,Main.WIDTH/2 - gl.width/2,Main.HEIGHT/2 - gl.height/2);
         main.batch.end();
+
+        if(Gdx.input.isTouched() && time > 120){
+            main.setScreen(new GameScreen(main));
+        }
     }
 
     @Override
