@@ -144,7 +144,8 @@ public class GameScreen implements Screen {
         if (player.getScore() == 1000) bulletGenerator.setFireRate(40);
         if (player.getScore() == 2000) bulletGenerator.setFireRate(60);
         if (player.getHealth() < 1){
-            main.setScreen(new DeadScreen(main,player.getScore() + " "));
+            main.setScreen(main.deadScreen);
+            main.deadScreen.setScore(player.getScore() + " ");
         }
     }
     public void gameRender(SpriteBatch batch){
@@ -169,7 +170,6 @@ public class GameScreen implements Screen {
         player = new Player(Main.player,new Vector2(Main.WIDTH/2,Main.HEIGHT/2),10,Main.HEIGHT/20,3);
         wave = new Wave(1,1,3);
         hud = new GameHud();
-        MusicPlayer.play();
     }
 
     public void multiTouch(float x, float y,boolean isDownTouch,int pointer) {
