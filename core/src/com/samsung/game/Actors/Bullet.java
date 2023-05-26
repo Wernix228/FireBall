@@ -16,7 +16,6 @@ public class Bullet extends Actor{
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.setColor(0.7f,0.5f,0,1);
         batch.draw(img,position.x-r,position.y-r,r*2,r*2);
     }
 

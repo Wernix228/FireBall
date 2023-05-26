@@ -22,10 +22,10 @@ public class Wave {
     BitmapFont font;
 
     public Wave(int delay, int waveNumber,int minEnemy) {
-        FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+        FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("fonts/font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter p = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        p.size = Main.WIDTH/20;
-        p.color = new Color(Color.BLUE);
+        p.size = Main.WIDTH/10;
+        p.color = new Color(0.5f,0.2f,0f,1f);
 
         font = gen.generateFont(p);
 
@@ -53,7 +53,7 @@ public class Wave {
         if (waveNumber > 10) maxRank = 3;
 
         for (int i = 0; i < enimies; i++) {
-            GameScreen.enemies.add(new Enemy(Main.actor,new Vector2(Main.WIDTH/2,Main.HEIGHT/4), MathUtils.random(1,maxRank + 2)));
+            GameScreen.enemies.add(new Enemy(Main.actor,new Vector2(Main.WIDTH/2,Main.HEIGHT/4), MathUtils.random(1,maxRank)));
         }
 
 
@@ -62,10 +62,13 @@ public class Wave {
 
         GlyphLayout gl = new GlyphLayout();
         gl.setText(font,str + waveNumber);
-
-        font.draw(batch,gl,Main.WIDTH/2 - gl.width/2,Main.HEIGHT/2);
+        font.draw(batch,gl,Main.WIDTH/2 - gl.width/2,Main.HEIGHT/1.5f);
     }
     public boolean isDraw(){
         return startTimer > 0;
+    }
+
+    public int getWaveNumber() {
+        return waveNumber;
     }
 }

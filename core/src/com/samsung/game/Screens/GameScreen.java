@@ -24,12 +24,10 @@ public class GameScreen implements Screen {
     public static Wave wave;
     public static GameHud hud;
     public static BulletGenerator bulletGenerator;
-    DataSaveLoad saveLoad;
     Main main;
 
     public GameScreen(Main main) {
         this.main = main;
-        saveLoad = new DataSaveLoad();
     }
 
     @Override
@@ -90,8 +88,10 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0,0.0f,0.0f,1);
+
         gameUpdate();
         main.batch.begin();
+        main.batch.draw(Main.background,-10,-10,Main.WIDTH+20,Main.HEIGHT+20);
         gameRender(main.batch);
         main.batch.end();
     }
@@ -134,8 +134,16 @@ public class GameScreen implements Screen {
             collision();
         }
         wave.update();
+        if (wave.getWaveNumber() > 10) player.setRegeneration(0.0005f);
+        if (wave.getWaveNumber() > 100) player.setRegeneration(0.001f);
+        if (player.getScore() == 10) bulletGenerator.setFireRate(3);
+        if (player.getScore() == 25) bulletGenerator.setFireRate(5);
+        if (player.getScore() == 50) bulletGenerator.setFireRate(6);
+        if (player.getScore() == 100) bulletGenerator.setFireRate(8);
+        if (player.getScore() == 500) bulletGenerator.setFireRate(10);
+        if (player.getScore() == 1000) bulletGenerator.setFireRate(40);
+        if (player.getScore() == 2000) bulletGenerator.setFireRate(60);
         if (player.getHealth() < 1){
-//            if (player.getScore() )
             main.setScreen(new DeadScreen(main,player.getScore() + " "));
         }
     }
@@ -153,14 +161,15 @@ public class GameScreen implements Screen {
         hud.draw(batch);
     }
     public void loadActors(){
-        joy2 = new Joystick(main.circle,main.actor,new Vector2(Main.WIDTH - ((Main.HEIGHT/3)/2+(Main.HEIGHT/3)/4),(Main.HEIGHT/3)/2+(Main.HEIGHT/3)/4),Main.HEIGHT/3);
-        joy = new Joystick(main.circle,main.actor,new Vector2(((Main.HEIGHT/3)/4 + Main.HEIGHT/5),(Main.HEIGHT/3)/2+(Main.HEIGHT/3)/4),Main.HEIGHT/3);
+        joy2 = new Joystick(main.circle,main.actor,new Vector2(Main.WIDTH - ((Main.HEIGHT/3)/2+(Main.HEIGHT/3)/4),(Main.HEIGHT/3)/2+(Main.HEIGHT/3)/4),Main.HEIGHT/2);
+        joy = new Joystick(main.circle,main.actor,new Vector2(((Main.HEIGHT/3)/4 + Main.HEIGHT/5),(Main.HEIGHT/3)/2+(Main.HEIGHT/3)/4),Main.HEIGHT/2);
         bullets = new Array<>();
         enemies = new Array<>();
         bulletGenerator = new BulletGenerator();
-        player = new Player(main.actor,new Vector2(Main.WIDTH/2,Main.HEIGHT/2),10,Main.HEIGHT/20,3);
-        wave = new Wave(1,1,5);
+        player = new Player(Main.player,new Vector2(Main.WIDTH/2,Main.HEIGHT/2),10,Main.HEIGHT/20,3);
+        wave = new Wave(1,1,3);
         hud = new GameHud();
+        MusicPlayer.play();
     }
 
     public void multiTouch(float x, float y,boolean isDownTouch,int pointer) {

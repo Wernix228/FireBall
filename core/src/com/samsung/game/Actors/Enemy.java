@@ -18,17 +18,17 @@ public class Enemy extends Actor {
         switch (rank) {
             case 1:
                 r = Main.WIDTH / 30;
-                speed = 10;
-                score = health = 10;
+                speed = 8;
+                score = health = 1;
                 break;
             case 2:
                 r = Main.WIDTH / 20;
-                speed = 7;
-                score = health = 20;
+                speed = 5;
+                score = health = 10;
                 break;
             case 3:
                 r = Main.WIDTH / 15;
-                speed = 5;
+                speed = 2;
                 score = health = 30;
                 break;
         }
@@ -39,7 +39,7 @@ public class Enemy extends Actor {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.setColor(Color.BLUE);
+        batch.setColor(Color.GRAY);
         batch.draw(img,position.x-r,position.y-r,r*2,r*2);
         batch.setColor(Color.WHITE);
     }

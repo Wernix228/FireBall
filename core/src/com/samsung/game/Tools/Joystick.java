@@ -14,6 +14,7 @@ public class Joystick {
     float rCircle, rStick;
     private int pointer = -1;
     Vector2 direction;
+    private boolean control = false;
 
     public Joystick(Texture circleImg, Texture stickImg, Vector2 point, float size) {
         this.circleImg = circleImg;
@@ -26,7 +27,8 @@ public class Joystick {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.setColor(1,1,1,0.5f);
+        if (control) batch.setColor(1,1,1,0.7f);
+        else batch.setColor(1,1,1,0.3f);
         batch.draw(circleImg, circleBounds.x - rCircle, circleBounds.y - rCircle, rCircle * 2, rCircle * 2);
         batch.draw(stickImg, stickBounds.x - rStick, stickBounds.y - rStick, rStick * 2, rStick * 2);
         batch.setColor(Color.WHITE);
@@ -41,6 +43,7 @@ public class Joystick {
     }
 
     public void atControl(Vector2 point) {
+        control = true;
         stickBounds.set(point, rStick);
         float dx = circleBounds.x - stickBounds.x;
         float dy = circleBounds.y - stickBounds.y;
@@ -48,6 +51,7 @@ public class Joystick {
         direction.set(-(dx / dist), -(dy / dist));
     }
     public void returnStick(){
+        control = false;
         stickBounds.set(circleBounds);
         direction.set(0,0);
         pointer = -1;
