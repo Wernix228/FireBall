@@ -13,10 +13,7 @@ import com.samsung.game.Actors.Bullet;
 import com.samsung.game.Actors.Enemy;
 import com.samsung.game.Actors.Player;
 import com.samsung.game.Main;
-import com.samsung.game.Tools.BulletGenerator;
-import com.samsung.game.Tools.GameHud;
-import com.samsung.game.Tools.Joystick;
-import com.samsung.game.Tools.Wave;
+import com.samsung.game.Tools.*;
 
 public class GameScreen implements Screen {
 
@@ -27,10 +24,12 @@ public class GameScreen implements Screen {
     public static Wave wave;
     public static GameHud hud;
     public static BulletGenerator bulletGenerator;
+    DataSaveLoad saveLoad;
     Main main;
 
     public GameScreen(Main main) {
         this.main = main;
+        saveLoad = new DataSaveLoad();
     }
 
     @Override
@@ -135,7 +134,10 @@ public class GameScreen implements Screen {
             collision();
         }
         wave.update();
-        if (player.getHealth() < 1) main.setScreen(new DeadScreen(main,player.getScore() + " "));
+        if (player.getHealth() < 1){
+//            if (player.getScore() )
+            main.setScreen(new DeadScreen(main,player.getScore() + " "));
+        }
     }
     public void gameRender(SpriteBatch batch){
         for (int i = 0; i < bullets.size; i++) {
@@ -156,7 +158,7 @@ public class GameScreen implements Screen {
         bullets = new Array<>();
         enemies = new Array<>();
         bulletGenerator = new BulletGenerator();
-        player = new Player(main.actor,new Vector2(Main.WIDTH/2,Main.HEIGHT/2),10,Main.HEIGHT/20,1);
+        player = new Player(main.actor,new Vector2(Main.WIDTH/2,Main.HEIGHT/2),10,Main.HEIGHT/20,3);
         wave = new Wave(1,1,5);
         hud = new GameHud();
     }
